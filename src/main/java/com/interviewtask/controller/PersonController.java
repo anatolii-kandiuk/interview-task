@@ -1,9 +1,9 @@
 package com.interviewtask.controller;
 
-import com.interviewtask.model.Person;
+import com.interviewtask.dto.PersonDto;
 import com.interviewtask.service.PersonService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping("{id}")
-    public Person getPersonInfo(@PathVariable Long id) {
-        return personService.getPersonById(id);
+    public ResponseEntity<PersonDto> getPersonInfo(@PathVariable Long id) {
+        return ResponseEntity.ok(personService.getPersonById(id));
     }
 }

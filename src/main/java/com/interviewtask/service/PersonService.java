@@ -1,7 +1,9 @@
 package com.interviewtask.service;
 
+import com.interviewtask.dto.PersonDto;
 import com.interviewtask.model.Person;
 import com.interviewtask.repository.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +20,15 @@ public class PersonService {
         this.personRepository.save(person);
     }
 
-    public Person getPersonById(Long id) {
-        Person person = personRepository.findById(id).get();
+    public PersonDto getPersonById(Long id) {
 
-        LocalDate dateOfBirth = person.getDateOfBirth();
+        Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person not found"));
 
-        person.setAge(calculateAge(dateOfBirth, LocalDate.now()));;
-
-        return person;
+        return new PersonDto(person.getFirstName(), person.getLastName(), calculateAge(person.getDateOfBirth()));
     }
 
-    private int calculateAge(LocalDate birthDate, LocalDate currentDate) {
-        return Period.between(birthDate, currentDate).getYears();
+    private int calculateAge(LocalDate birthDate) {
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
+
 }
