@@ -40,7 +40,7 @@ public class PersonControllerIntegrationTest {
         person = personRepository.save(person);
 
         //when
-        ResponseEntity<PersonDto> response = restTemplate.getForEntity("http://localhost:" + port + "/" + person.getId(), PersonDto.class);
+        ResponseEntity<PersonDto> response = restTemplate.getForEntity("http://localhost:" + port + "/person/" + person.getId(), PersonDto.class);
 
         //then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
